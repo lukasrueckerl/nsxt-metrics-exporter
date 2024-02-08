@@ -62,7 +62,7 @@ class NSXAppCollector(object):
         return text.replace("-","_").replace(".","_").replace("/","_").replace(" ","_")
          
     def collect(self):
-        host="https://"+os.environ['NSX_HOST']
+        host=os.environ['NSX_HOST']
         username=os.environ['NSX_USER']
         password=os.environ['NSX_PASS']
 

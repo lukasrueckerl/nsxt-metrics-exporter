@@ -50,15 +50,15 @@ spec:
           - name: NSX_HOST
             valueFrom:
               secretKeyRef:
-                name: NSX_HOST
+                name: nsxt-credentials
                 key: NSX_HOST
           - name: NSX_USER
             valueFrom:
               secretKeyRef:
-                name: NSX_USER
+                name: nsxt-credentials
                 key: NSX_USER
           - name: NSX_PASS
             valueFrom:
               secretKeyRef:
-                name: NSX_PASS
+                name: nsxt-credentials
                 key: NSX_PASS
