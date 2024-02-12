@@ -20,7 +20,7 @@ class NSXAppCollector(object):
     DEBUG = False
 
     if "NSX_DEBUGMODE" in os.environ:
-        if os.environ['NSX_HOST'] == True:
+        if os.environ['NSX_DEBUGMODE'] == True:
             DEBUG = True
 
     def __init__(self):
@@ -121,7 +121,7 @@ class NSXAppCollector(object):
                     for singlekeyresult in keyresult["results"]:
                         g = GaugeMetricFamily("nsx_edge_"+self.format_prometheus(keyresult["key"])+"_"+self.format_prometheus(singlekeyresult["object_id"]), keyresult["description"], labels=["resourcename","resourcetype","nodeid"])
                         g.add_metric(["nappmetrics_"+self.format_prometheus(singlekeyresult["node_name"]),"EdgeNode",self.format_prometheus(singlekeyresult["node_name"])], float(float(singlekeyresult["data"][0]["value"])))
-                        print(g)
+                        if self.DEBUG: print(g)
                         yield g    
           
         # Scraping Tier0Interfaces
@@ -167,9 +167,9 @@ class NSXAppCollector(object):
             for noderesult in result:
                 for keyresult in noderesult["key_results"]:  
                     for singlekeyresult in keyresult["results"]:
-                        print(str(noderesult))
-                        print(str(keyresult))
-                        print(str(interfacenames[str(noderesult["resource_id"])]))
+                        if self.DEBUG: print(str(noderesult))
+                        if self.DEBUG: print(str(keyresult))
+                        if self.DEBUG: print(str(interfacenames[str(noderesult["resource_id"])]))
                         nodedisplayname = str(interfacenames[str(noderesult["resource_id"])])
                         gatewaydisplayname = str(interfacegatewaynames[str(noderesult["resource_id"])])
                            
