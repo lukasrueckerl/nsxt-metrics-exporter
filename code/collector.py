@@ -18,11 +18,7 @@ class NSXAppCollector(object):
     RATELIMITER = 30
     RATELIMITING = True
     DEBUG = False
-
-    if "NSX_DEBUGMODE" in os.environ:
-        if os.environ['NSX_DEBUGMODE'] == True:
-            DEBUG = True
-
+    
     def __init__(self):
         pass
 
@@ -87,6 +83,10 @@ class NSXAppCollector(object):
         host=os.environ['NSX_HOST']
         username=os.environ['NSX_USER']
         password=os.environ['NSX_PASS']
+
+        if "NSX_DEBUGMODE" in os.environ:
+            if os.environ['NSX_DEBUGMODE'] == True:
+                self.DEBUG = True
 
         if self.DEBUG: print ("Starting Collection for "+host)
 
