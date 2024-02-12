@@ -18,7 +18,7 @@ class NSXAppCollector(object):
     RATELIMITER = 30
     RATELIMITING = True
     DEBUG = False
-    
+
     def __init__(self):
         pass
 
@@ -119,7 +119,7 @@ class NSXAppCollector(object):
             for noderesult in result:
                 for keyresult in noderesult["key_results"]:  
                     for singlekeyresult in keyresult["results"]:
-                        g = GaugeMetricFamily("nsx_edge_"+self.format_prometheus(keyresult["key"])+"_"+self.format_prometheus(singlekeyresult["object_id"]), keyresult["description"], labels=["resourcename","resourcetype","nodeid"])
+                        g = GaugeMetricFamily("nsx_policyedge_"+self.format_prometheus(keyresult["key"])+"_"+self.format_prometheus(singlekeyresult["object_id"]), keyresult["description"], labels=["resourcename","resourcetype","nodeid"])
                         g.add_metric(["nappmetrics_"+self.format_prometheus(singlekeyresult["node_name"]),"EdgeNode",self.format_prometheus(singlekeyresult["node_name"])], float(float(singlekeyresult["data"][0]["value"])))
                         if self.DEBUG: print(g)
                         yield g    
