@@ -17,6 +17,11 @@ class NSXAppCollector(object):
     APICALLS = 0
     RATELIMITER = 30
     RATELIMITING = True
+    DEBUG = False
+
+    if "NSX_DEBUGMODE" in os.environ:
+        if os.environ['NSX_HOST'] == True:
+            DEBUG = True
 
     def __init__(self):
         pass
@@ -26,7 +31,7 @@ class NSXAppCollector(object):
         
         # Rate Limiting function
         if self.APICALLS >= self.RATELIMITER and RATELIMITING == True:
-            print("Hit Ratelimiter Value. Waiting for NSX API Rate Limit to cool down.")
+            if DEBUG: print("Hit Ratelimiter Value. Waiting for NSX API Rate Limit to cool down.")
             time.sleep(1)
             self.APICALLS = 0
         self.APICALLS += 1
@@ -37,12 +42,14 @@ class NSXAppCollector(object):
         if req.status_code != 200:
             print ("UNKNOWN ERROR: Can't connect to %s failed: %s" % (url, "error"))
         
+        if DEBUG: print (req.json())
+
         return req.json ()
 
     # Common POST-Call function to API
     def call_api_post (self, host, uri, apiuser, apipw, payload):	
         if self.APICALLS >= self.RATELIMITER and RATELIMITING == True:            
-            print("Hit Ratelimiter Value. Waiting for NSX API Rate Limit to cool down.")
+            if DEBUG: print("Hit Ratelimiter Value. Waiting for NSX API Rate Limit to cool down.")
             time.sleep(1)
             self.APICALLS = 0
         self.APICALLS += 1
@@ -54,6 +61,8 @@ class NSXAppCollector(object):
         if req.status_code != 200:
             print ("UNKNOWN ERROR: Can't connect to %s failed: %s" % (url, "error"))
         
+        if DEBUG: print (req.json())
+
         return req.json ()    
     
 
@@ -78,6 +87,8 @@ class NSXAppCollector(object):
         host=os.environ['NSX_HOST']
         username=os.environ['NSX_USER']
         password=os.environ['NSX_PASS']
+
+        if DEBUG: print ("Starting Collection for "+host)
 
         # Scraping EdgeNodes
 
@@ -113,8 +124,6 @@ class NSXAppCollector(object):
                         print(g)
                         yield g    
           
-        
-        
         # Scraping Tier0Interfaces
 
         key_definition = self.call_api_get(host,"/napp/api/v1/metrics/key-info?resource_type="+"Tier0Interface",username,password)["results"] # type: ignore
