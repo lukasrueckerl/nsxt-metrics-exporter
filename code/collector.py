@@ -30,7 +30,7 @@ class NSXAppCollector(object):
     def call_api_get (self, host, uri, apiuser, apipw, returnToken = False):
         
         # Rate Limiting function
-        if self.APICALLS >= self.RATELIMITER and RATELIMITING == True:
+        if self.APICALLS >= self.RATELIMITER and self.RATELIMITING == True:
             if self.DEBUG: print("Hit Ratelimiter Value. Waiting for NSX API Rate Limit to cool down.")
             time.sleep(1)
             self.APICALLS = 0
