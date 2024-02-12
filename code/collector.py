@@ -48,8 +48,8 @@ class NSXAppCollector(object):
 
     # Common POST-Call function to API
     def call_api_post (self, host, uri, apiuser, apipw, payload):	
-        if self.APICALLS >= self.RATELIMITER and RATELIMITING == True:            
-            if DEself.DEBUGBUG: print("Hit Ratelimiter Value. Waiting for NSX API Rate Limit to cool down.")
+        if self.APICALLS >= self.RATELIMITER and self.RATELIMITING == True:            
+            if self.DEBUG: print("Hit Ratelimiter Value. Waiting for NSX API Rate Limit to cool down.")
             time.sleep(1)
             self.APICALLS = 0
         self.APICALLS += 1
